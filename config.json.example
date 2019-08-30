@@ -1,0 +1,121 @@
+{
+    "discordToken": "YOUR DISCORD BOT TOKEN HERE",
+    "deepblue": {
+        "commandStartChar": "!",
+        "embedColor": 14496563,
+        "botChannelName": "general",
+        "modChannelName": "moderation",
+        "perfsForRoles": ["blitz", "rapid"],
+        "allPerfs": [
+            "ultraBullet", "bullet", "blitz", "rapid", "classical", "correspondence",
+            "chess960", "crazyhouse", "atomic", "threeCheck",
+            "kingOfTheHill", "horde", "antichess", "racingKings", "puzzle"
+        ]
+    },
+    "ratingRoleManager": {
+        "unrankedRole": "Unranked",
+        "roles": ["1000-", "1000+", "1100+", "1200+", "1300+", "1400+", "1500+", "1600+", "1700+", "1800+", "1900+", "2000+", "2100+", "2200+", "2300+", "2400+", "2500++"]
+    },
+    "lichessTracker": {
+        "dataFile": "lichessData.json",
+        "lichessApiUser": "https://lichess.org/api/user/%username%",
+        "lichessApiManyUsers": "https://lichess.org/api/users",
+        "lichessProfileUrl": "https://lichess.org/@/%username%",
+        "apiRequestTimeout": 5000,
+        "perRequest": 50,
+        "updateAllDelay": 300000,
+        "rdPenaltyRatingThreshold": 2000,
+        "ratingDeviationThreshold": 75,
+        "highRatingDeviationPenalty": 200
+    },
+    "fen": {
+        "board": "light",
+        "pieces": "neo",
+        "coords": 0,
+        "size": 3,
+        "analysisUrl": "https://lichess.org/analysis?fen=",
+        "fenImgeApiUrl": "https://www.chess.com/dynboard"
+    },
+    "variants": {
+        "channels": ["moderation", "general"],
+        "list": [
+            "UltraBullet or ultra",
+            "Bullet",
+            "Blitz",
+            "Rapid",
+            "Classical",
+            "Correspondence or corr",
+            "Chess960 or 960",
+            "Crazyhouse or ch",
+            "Atomic",
+            "ThreeCheck or 3c",
+            "KingOfTheHill or koth",
+            "Horde",
+            "Antichess",
+            "RacingKings or rk",
+            "Puzzle"
+        ]
+    },
+    "lichess": {
+        "channels": ["moderation", "general"]
+    },
+    "rank": {
+        "channels": ["moderation", "general"]
+    },
+    "list": {
+        "channels": ["moderation", "general"],
+        "perPage": 10,
+        "inactiveThreshold": 1209600000
+    },
+    "remove": {
+        "channels": ["moderation", "general"]
+    },
+    "arena": {
+        "channels": ["moderation", "general"],
+        "arenaRoleName": "Arena"
+    },
+    "league": {
+        "channels": ["moderation", "general"],
+        "leagueRoleName": "League"
+    },
+    "study": {
+        "channels": ["moderation", "general"],
+        "studyRoleName": "Study"
+    },
+    "help": {
+        "channels": ["moderation", "general"],
+        "fields": [
+            {
+                "name": "!Lichess [Lichess Username]",
+                "value": "Links you to a specific username on Lichess."
+            },{
+                "name": "!Remove",
+                "value": "Removes you from the rating tracker."
+            },{
+                "name": "!List [variant] [page]",
+                "value": "Displays leaderboard of players. Type !variants to see variant list."
+            },{
+                "name": "!Active [variant] [page]",
+                "value": "Displays leaderboard of players. Only lists people who are active on the server."
+            },{
+                "name": "!Rank [@user or lichess username]",
+                "value": "Displays your current ranking in the leaderboard."
+            },{
+                "name": "!Arena",
+                "value": "Toggles arena role."
+            },{
+                "name": "!League",
+                "value": "Toggles league role."
+            },{
+                "name": "!Study",
+                "value": "Toggles study role."
+            },{
+                "name": "!Fen [FEN]",
+                "value": "Will show the board."
+            },{
+                "name": "!Variants",
+                "value": "Shows list of available variants for !list or !active commands."
+            }
+        ]
+    }
+}
