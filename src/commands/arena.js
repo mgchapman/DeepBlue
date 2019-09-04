@@ -7,14 +7,14 @@ function ArenaCommand(msg) {
         }
     }
 
-    let arenaRole = msg.member.roles.find((val) => val.name === cfg.arena.arenaRoleName);
+    let arenaRole = msg.member.roles.find(val => val.name === cfg.arena.arenaRoleName);
     if(arenaRole) {
         //Remove the role
         msg.member.removeRole(arenaRole);
         msg.channel.send("Arena role removed.");
     } else {
         //Add the role
-        let role = msg.guild.roles.find((val) => val.name === cfg.arena.arenaRoleName);
+        let role = msg.guild.roles.find(val => val.name === cfg.arena.arenaRoleName);
         msg.member.addRole(role);
         msg.channel.send("Arena role added.");
     }

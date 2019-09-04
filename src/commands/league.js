@@ -7,14 +7,14 @@ function LeagueCommand(msg) {
         }
     }
 
-    let leagueRole = msg.member.roles.find((val) => val.name === cfg.league.leagueRoleName);
+    let leagueRole = msg.member.roles.find(val => val.name === cfg.league.leagueRoleName);
     if(leagueRole) {
         //Remove the role
         msg.member.removeRole(leagueRole);
         msg.channel.send("League role removed.");
     } else {
         //Add the role
-        let role = msg.guild.roles.find((val) => val.name === cfg.league.leagueRoleName);
+        let role = msg.guild.roles.find(val => val.name === cfg.league.leagueRoleName);
         msg.member.addRole(role);
         msg.channel.send("League role added.");
     }
