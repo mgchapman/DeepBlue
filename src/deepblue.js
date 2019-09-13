@@ -20,6 +20,7 @@ function DeepBlue(discord) {
     this.guild = discord.guilds.first();
     this.botChannel = this.guild.channels.find(c => c.name === cfg.deepblue.botChannelName);
     this.modChannel = this.guild.channels.find(c => c.name === cfg.deepblue.modChannelName);
+    this.staffRole = this.guild.roles.find(val => val.name === cfg.deepblue.staffRole);
     this.discord = discord;
     this.ratingRoleManager = new RatingRoleManager(this);
     this.lichessTracker = new LichessTracker(this);
@@ -62,6 +63,7 @@ DeepBlue.prototype.onMessage = function(msg) {
     } else if(cmd === "variants") {
         VariantsCommand(this, msg);
     }
+    console.log(new Date().toString(), msg.member.nickname || msg.author.username, msg.content);
 };
 
 DeepBlue.prototype.sendMessage = function(channel, msg) {

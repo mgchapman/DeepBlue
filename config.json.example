@@ -10,7 +10,8 @@
             "bullet", "blitz", "rapid", "classical",
             "chess960", "crazyhouse", "fide"
         ],
-        "messageDeleteDelay": 600000
+        "messageDeleteDelay": 600000,
+        "staffRole": "Staff"
     },
     "ratingRoleManager": {
         "unrankedRole": "Unranked",

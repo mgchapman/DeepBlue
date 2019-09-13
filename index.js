@@ -5,9 +5,10 @@ const client = new (require("discord.js")).Client();
 client.login(cfg.discordToken);
 client.on("ready", () => {
     let guild = client.guilds.first();
-    let roles = cfg.ratingRoleManager.roles;
+    let roles = [...cfg.ratingRoleManager.roles];
     roles.push(cfg.ratingRoleManager.unrankedRole);
     roles.push(cfg.ratingRoleManager.provisionalRole);
+    roles.push(cfg.deepblue.staffRole);
     roles.push(cfg.league.leagueRoleName);
     roles.push(cfg.arena.arenaRoleName);
     roles.push(cfg.study.studyRoleName);

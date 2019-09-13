@@ -46,10 +46,18 @@ RatingRoleManager.prototype.assignRatingRole = function(member, perf) {
 };
 
 RatingRoleManager.prototype.assignProvisionalRole = function(member) {
+    //Check if user has unranked role and remove it
+    let unranked = member.roles.find(val => val.name === this.unrankedRole);
+    if(unranked) {
+        member.removeRole(unranked).catch(console.error);
+    }
+
     let currentRole = this.getCurrentRatingRole(member);
     let provRole = this.deepblue.guild.roles.find(val => val.name === this.provisionalRole);
-    if(currentRole.name !== provRole.name) {
-        member.removeRole(currentRole).catch(console.error);
+    if(!currentRole || currentRole.name !== provRole.name) {
+        if(currentRole) {
+            member.removeRole(currentRole).catch(console.error);
+        }
         member.addRole(provRole).catch(console.error);
     }
 
