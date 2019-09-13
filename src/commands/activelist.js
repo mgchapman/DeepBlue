@@ -2,7 +2,7 @@ const cfg = require("../../config.json");
 const DataManager = require("../datamanager.js");
 const PerformanceBreakdown = require("../perf.js");
 
-function ListCommand(deepblue, msg) {
+function ActiveListCommand(deepblue, msg) {
     if(cfg.list.channels) {
         if(!cfg.list.channels.includes(msg.channel.name)) {
             return; //Not in the right channel
@@ -35,15 +35,28 @@ function ListCommand(deepblue, msg) {
     let allData = new DataManager(cfg.lichessTracker.dataFile).getData();
     let collectedData = Object.keys(allData);
 
-    //Remove penalty
+    //Only active members are allowed to be listed
+    let now = Date.now();
+    if(allData[msg.member.id]) {
+        //Make sure to immediatly allow sender to be shown
+        allData[msg.member.id].lastMessageAt = now;
+    }
+    collectedData = collectedData.filter((uid) => {
+        if(allData[uid].lastMessageAt) {
+            let d = allData[uid].lastMessageAt + cfg.list.inactiveThreshold;
+            return d > now;
+        }
+        return false;
+    });
+
+    //Apply penalty
     collectedData.forEach((uid) => {
         for(let type in allData[uid].perfs) {
             if(allData[uid].perfs[type].penalty) {
-                delete allData[uid].perfs[type].penalty;
+                allData[uid].perfs[type].rating -= allData[uid].perfs[type].penalty;
             }
         }
     });
-
     if(type) {
         type = PerformanceBreakdown.toPerfName(type);
         collectedData = collectedData.filter((uid) => {
@@ -93,18 +106,30 @@ function ListCommand(deepblue, msg) {
 
     let startPos = page * perPage - perPage;
     let endPos = startPos + perPage;
+    let penaltyAdded = false;
 
     for(let i = startPos; i < collectedData.length && i < endPos; i++) {
         let member = deepblue.guild.members.get(collectedData[i].uid);
         let nick = member.nickname || member.user.username;
         let url = cfg.lichessTracker.lichessProfileUrl.replace("%username%", collectedData[i].username);
-        let typeStr = `(${collectedData[i].maxRating.type}) `;
+        let typeStr = `(${collectedData[i].maxRating.type})`;
+        let penalty = "";
 
-        output.embed.description += `${(i + 1)}: **${collectedData[i].maxRating.rating}** [${nick}](${url}) ${typeStr}\n`;
+        if(collectedData[i].maxRating.penalty) {
+            penalty = " ▼";
+            penaltyAdded = true;
+        }
+
+        output.embed.description += `${(i + 1)}: **${collectedData[i].maxRating.rating}** [${nick}](${url}) ${typeStr}${penalty}\n`;
+    }
+
+    if(penaltyAdded) {
+        output.embed.description += `\n▼ — Penalty of ${cfg.lichessTracker.highRatingDeviationPenalty}.`
+        output.embed.description += ` RD is above ${cfg.lichessTracker.ratingDeviationThreshold}.`;
     }
 
     deepblue.sendMessage(msg.channel, output);
     msg.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
 }
 
-module.exports = ListCommand;
+module.exports = ActiveListCommand;

@@ -7,13 +7,15 @@ function VariantsCommand(deepblue, msg) {
         }
     }
 
-    msg.channel.send({
+    deepblue.sendMessage(msg.channel, {
         "embed": {
             "title": `Variants tracked by the bot:`,
             "color": cfg.deepblue.embedColor,
             "description": cfg.variants.list.join("\n")
         }
     });
+
+    msg.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
 }
 
 module.exports = VariantsCommand;

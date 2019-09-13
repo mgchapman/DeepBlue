@@ -1,7 +1,7 @@
 function PerformanceBreakdown() {
 }
 
-PerformanceBreakdown.getMaxRating = function(perfs, types, allowProv) {
+PerformanceBreakdown.getMaxRating = function(perfs, types) {
     let maxRating = {
         "rating": -Infinity,
         "type": "Unknown"
@@ -9,10 +9,9 @@ PerformanceBreakdown.getMaxRating = function(perfs, types, allowProv) {
 
     for(type in perfs) {
         if(types && types.includes(type) || !types) {
-            if(!perfs[type].prov || perfs[type].prov && allowProv) {
+            if(!perfs[type].prov) {
                 let penRat1 = perfs[type].rating - (perfs[type].penalty || 0);
                 let penRat2 = maxRating.rating - (maxRating.penalty || 0);
-
                 if(penRat1 > penRat2) {
                     maxRating = perfs[type];
                     maxRating.type = PerformanceBreakdown.perfToReadable(type);
@@ -24,32 +23,18 @@ PerformanceBreakdown.getMaxRating = function(perfs, types, allowProv) {
     return maxRating;
 };
 
-PerformanceBreakdown.getRank = function(allData, pivotUid, types) {
+PerformanceBreakdown.getRank = function(allData, pivotUid, types, activeOnly) {
     let keys = Object.keys(allData);
 
-    //Map to perfs + max rating for types
-    if(type === "fide") {
-        keys = keys.map((uid) => {
-            allData[uid].uid = uid;
-            allData[uid].fide = getFideEstimate(allData[uid].perfs);
-            return allData[uid];
-        });
-        keys = keys.filter((p) => {
-            return p.fide !== null;
-        });
-        keys.sort((a, b) => {
-            return b.fide - a.fide;
-        });
-    } else {
-        keys = keys.map((uid) => {
-            allData[uid].uid = uid;
-            allData[uid].maxRating = this.getMaxRating(allData[uid].perfs, types);
-            return allData[uid];
-        });
-        keys.sort((a, b) => {
-            return b.maxRating.rating - a.maxRating.rating;
-        });
-    }
+    keys = keys.map(uid => {
+        allData[uid].uid = uid;
+        allData[uid].maxRating = this.getMaxRating(allData[uid].perfs, types);
+        return allData[uid];
+    });
+
+    keys.sort((a, b) => {
+        return b.maxRating.rating - a.maxRating.rating;
+    });
 
     for(let i = 0; i < keys.length; i++) {
         if(keys[i].uid === pivotUid) {
@@ -58,22 +43,10 @@ PerformanceBreakdown.getRank = function(allData, pivotUid, types) {
     }
 };
 
-function getFideEstimate(perfs) {
+PerformanceBreakdown.getFideEstimate = function(perfs) {
     let cr = null;
     if(perfs.classical && !perfs.classical.prov) {
         cr = perfs.classical.rating;
-    }
-
-    //Rapid rating
-    let rr = null;
-    if(perfs.rapid && !perfs.rapid.prov) {
-        rr = perfs.rapid.rating;
-    }
-
-    //Getting t value
-    let t = null;
-    if(cr || rr) {
-        t = cr > rr ? cr : rr;
     }
 
     //Blitz rating
@@ -82,11 +55,11 @@ function getFideEstimate(perfs) {
         br = perfs.blitz.rating;
     }
 
-    if(t && br) {
-        if(t > 2100 || br > 2100) {
-            return (br + 2 * t) / 3 - 150;
+    if(cr && br) {
+        if(cr > 2100 || br > 2100) {
+            return (br + cr + cr + cr) / 4 - 150;
         } else {
-            return (2 * br + t) / 3 - 150;
+            return (br + br + br + cr) / 4 - 150;
         }
     } else {
         return null;
@@ -125,6 +98,9 @@ PerformanceBreakdown.perfToReadable = function(name) {
     }
     if(name === "threeCheck") {
         return "Three Check";
+    }
+    if(name === "fide") {
+        return "FIDE estimate";
     }
 
     return name[0].toUpperCase() + name.slice(1);

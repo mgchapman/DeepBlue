@@ -45,20 +45,38 @@ function RankCommand(deepblue, msg) {
         return;
     }
 
+    if(userData.allProvisional) {
+        deepblue.sendMessage(msg.channel, "All ratings are provisional. Cannot fetch active ranks.");
+        msg.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
+        return;
+    }
+
+    //Only active members are allowed to be listed
+    let now = Date.now();
+    if(allData[msg.member.id]) {
+        //Make sure to allow sender to be ranked
+        allData[msg.member.id].lastMessageAt = now;
+    }
+    for(uid in allData) {
+        if(allData[uid].lastMessageAt) {
+            let d = allData[uid].lastMessageAt + cfg.list.inactiveThreshold;
+            if(d > now) {
+                continue;
+            }
+        }
+        delete allData[uid];
+    }
+
     for(let i = 0; i < cfg.deepblue.allPerfs.length; i++) {
         let type = cfg.deepblue.allPerfs[i];
         if(userData.perfs[type]) {
-            //Show provisional, but without rank
-            if(userData.perfs[type].prov) {
+            //Do not include provisional ratings, or inactive members
+            if(!userData.perfs[type].prov) {
                 allRatings[type] = {
+                    "rank": PerformanceBreakdown.getRank(allData, member.id, [type], true), //Active flag set
                     "type": PerformanceBreakdown.perfToReadable(type),
-                    "rating": userData.perfs[type].rating
-                };
-            } else {
-                allRatings[type] = {
-                    "rank": PerformanceBreakdown.getRank(allData, member.id, [type]),
-                    "type": PerformanceBreakdown.perfToReadable(type),
-                    "rating": userData.perfs[type].rating
+                    "rating": userData.perfs[type].rating - (userData.perfs[type].penalty || 0),
+                    "penalty": userData.perfs[type].penalty
                 };
             }
         }
@@ -77,11 +95,7 @@ function RankCommand(deepblue, msg) {
     };
 
     let roleRating = PerformanceBreakdown.getMaxRating(userData.perfs, cfg.deepblue.perfsForRoles);
-    if(!isFinite(roleRating.rating)) {
-        result.embed.description += `Rating for role: **Provisional**`;
-    } else {
-        result.embed.description += `Rating for role: **${roleRating.rating}${roleRating.penalty ? "▼" : ""}** (${roleRating.type})`;
-    }
+    result.embed.description += `Rating for role: **${roleRating.rating}** (${roleRating.type})${roleRating.penalty ? " ▼" : ""}`;
 
     //Finding highest rating rank
     let highObj = null;
@@ -93,7 +107,7 @@ function RankCommand(deepblue, msg) {
             highRating = rating;
         }
     }
-    result.embed.description += `\nHighest rating: **${highObj.rating}** (${highObj.rank ? "#" + highObj.rank : "Provisional"}, ${highObj.type})`;
+    result.embed.description += `\nHighest rating: **${highObj.rating}** (#${highObj.rank}, ${highObj.type})${highObj.penalty ? " ▼" : ""}`;
 
     //Finding best rank
     let bestObj = null;
@@ -108,9 +122,7 @@ function RankCommand(deepblue, msg) {
         }
     }
     if(bestObj) {
-        result.embed.description += `\nBest rank: **#${bestObj.rank}** (${bestObj.rating}, ${bestObj.type})\n`;
-    } else {
-        result.embed.description += `\nBest rank: **All provisional**\n`;
+        result.embed.description += `\nBest rank: **#${bestObj.rank}** (${bestObj.rating}, ${bestObj.type})${bestObj.penalty ? " ▼" : ""}\n`;
     }
 
     //Standard chess rankings
@@ -123,7 +135,7 @@ function RankCommand(deepblue, msg) {
     result.embed.description += getRankText(allRatings, "chess960");
     result.embed.description += getRankText(allRatings, "crazyhouse");
 
-    if(roleRating.penalty) {
+    if(roleRating.penalty || highObj.penalty || bestObj.penalty) {
         result.embed.description += `\n\n▼ — Penalty of ${cfg.lichessTracker.highRatingDeviationPenalty}.`
         result.embed.description += ` RD is above ${cfg.lichessTracker.ratingDeviationThreshold}.`;
     }
@@ -145,12 +157,7 @@ function getUidFromUsername(allData, username) {
 function getRankText(allRatings, type) {
     if(allRatings[type]) {
         let data = allRatings[type];
-        if(data.rank) {
-            return `\n${data.type}: **${data.rating}** (#${data.rank})`;
-        } else {
-            //Provisional, so no rank
-            return `\n${data.type}: ${data.rating}?`;
-        }
+        return `\n${data.type}: **${data.rating}** (#${data.rank})${data.penalty ? " ▼" : ""}`;
     }
     return "";
 }

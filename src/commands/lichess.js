@@ -7,13 +7,18 @@ function LichessCommand(deepblue, msg) {
         }
     }
 
+
     let split = msg.content.split(/\s+/);
 
-    if(split.length === 1) {
-        return msg.channel.send("Not enough arguments.");
+    if(split.length < 2) {
+        deepblue.sendMessage(msg.channel, "Not enough parameters.");
     } else if(split.length === 2) {
-        return deepblue.lichessTracker.track(msg, split[1]);
+        deepblue.lichessTracker.track(msg, split[1]);
+    } else {
+        deepblue.sendMessage(msg.channel, "Too many parameters.");
     }
+
+    msg.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
 }
 
 module.exports = LichessCommand;

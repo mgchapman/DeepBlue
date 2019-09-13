@@ -8,8 +8,9 @@
         "perfsForRoles": ["blitz", "rapid"],
         "allPerfs": [
             "bullet", "blitz", "rapid", "classical",
-            "chess960", "crazyhouse"
-        ]
+            "chess960", "crazyhouse", "fide"
+        ],
+        "messageDeleteDelay": 600000
     },
     "ratingRoleManager": {
         "unrankedRole": "Unranked",
@@ -58,7 +59,7 @@
     },
     "list": {
         "channels": ["moderation", "general"],
-        "perPage": 10,
+        "perPage": 15,
         "inactiveThreshold": 1209600000
     },
     "remove": {
@@ -89,11 +90,14 @@
                 "name": "!List [variant] [page]",
                 "value": "Displays leaderboard of players. Type !variants to see variant list."
             },{
-                "name": "!Active [variant] [page]",
+                "name": "!ActiveList [variant] [page]",
                 "value": "Displays leaderboard of players. Only lists people who are active on the server."
             },{
-                "name": "!Rank [@user or lichess username]",
+                "name": "!Rank [@user or Lichess username]",
                 "value": "Displays your current ranking in the leaderboard."
+            },{
+                "name": "!ActiveRank [@user or Lichess username]",
+                "value": "Displays your current ranking in the active players leaderboard."
             },{
                 "name": "!Arena",
                 "value": "Toggles arena role."

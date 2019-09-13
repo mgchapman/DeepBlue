@@ -3,7 +3,7 @@ const cfg = require("../../config.json");
 function FenCommand(deepblue, msg) {
     let spaceIdx = msg.content.indexOf(" ");
     if(spaceIdx < 0) {
-        return msg.channel.send("No fen provided!");
+        return deepblue.sendMessage(msg.channel, "No fen provided!");
     }
 
     let fen = msg.content.slice(spaceIdx).trim();

@@ -8,6 +8,7 @@ function RemoveCommand(deepblue, msg) {
     }
 
     deepblue.lichessTracker.remove(msg, msg.member);
+    msg.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
 }
 
 module.exports = RemoveCommand;

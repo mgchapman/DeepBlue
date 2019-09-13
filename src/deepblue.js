@@ -10,10 +10,11 @@ const RemoveCommand = require("./commands/remove.js");
 
 const RatingRoleManager = require("./ratingrolemanager.js");
 const LichessTracker = require("./lichesstracker.js");
-/*
-const RankCommand = require("./commands/rank.js");
+
 const ListCommand = require("./commands/list.js");
-*/
+const ActiveListCommand = require("./commands/activelist.js");
+const RankCommand = require("./commands/rank.js");
+const ActiveRankCommand = require("./commands/activerank.js");
 
 function DeepBlue(discord) {
     this.guild = discord.guilds.first();
@@ -34,39 +35,43 @@ DeepBlue.prototype.onMessage = function(msg) {
     if(!cfg.deepblue.commandStartChars.includes(msg.content[0])) {
         return; //Not a command
     }
-    let commandStarter = msg.content.substring(1).toLowerCase();
+    let cmd = msg.content.substring(1).toLowerCase();
 
-    if(commandStarter.startsWith("fen")) {
+    if(cmd.startsWith("fen")) {
         FenCommand(this, msg);
-    } else if(commandStarter.startsWith("help") || commandStarter.startsWith("dbhelp")) {
-        HelpCommand(msg);
-    } else if(commandStarter.startsWith("lichess") || commandStarter.startsWith("link")) {
+    } else if(cmd.startsWith("help") || cmd.startsWith("dbhelp")) {
+        HelpCommand(this, msg);
+    } else if(cmd.startsWith("lichess") || cmd.startsWith("link")) {
         LichessCommand(this, msg);
-    } else if(commandStarter.startsWith("list")) {
-        //ListCommand(this, msg);
-    } else if(commandStarter.startsWith("active")) {
-        //ListCommand(this, msg, true); //Active only flag set
-    } else if(commandStarter.startsWith("rank") || commandStarter.startsWith("myrank")) {
-        //RankCommand(this, msg);
-    } else if(commandStarter === "remove" || commandStarter === "unlink") {
+    } else if(cmd.startsWith("rank") || cmd.startsWith("myrank")) {
+        RankCommand(this, msg);
+    } else if(cmd.startsWith("activerank") || cmd.startsWith("activemyrank") || cmd.startsWith("actrank") || cmd.startsWith("actmyrank")) {
+        ActiveRankCommand(this, msg);
+    } else if(cmd.startsWith("list")) {
+        ListCommand(this, msg);
+    } else if(cmd.startsWith("active") || cmd.startsWith("actlist")) {
+        ActiveListCommand(this, msg);
+    } else if(cmd === "remove" || cmd === "unlink") {
         RemoveCommand(this, msg);
-    } else if(commandStarter === "arena") {
-        ArenaCommand(msg);
-    } else if(commandStarter === "league") {
-        LeagueCommand(msg);
-    } else if(commandStarter === "study") {
-        StudyCommand(msg);
-    } else if(commandStarter === "variants") {
+    } else if(cmd === "arena") {
+        ArenaCommand(this, msg);
+    } else if(cmd === "league") {
+        LeagueCommand(this, msg);
+    } else if(cmd === "study") {
+        StudyCommand(this, msg);
+    } else if(cmd === "variants") {
         VariantsCommand(this, msg);
     }
 };
 
-DeepBlue.prototype.sendBotChannel = function(msg) {
-    this.botChannel.send(msg).catch(console.error);
-};
-
-DeepBlue.prototype.sendModChannel = function(msg) {
-    this.modChannel.send(msg).catch(console.error);
+DeepBlue.prototype.sendMessage = function(channel, msg) {
+    if(!channel) {
+        channel = this.botChannel;
+    }
+    channel.send(msg)
+    .then(sent => {
+        sent.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
+    }).catch(console.error);
 };
 
 DeepBlue.prototype.getMemberFromMention = function(text) {

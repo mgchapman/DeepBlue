@@ -1,17 +1,20 @@
 const cfg = require("../../config.json");
 
-function HelpCommand(msg) {
+function HelpCommand(deepblue, msg) {
     if(cfg.help.channels) {
         if(!cfg.help.channels.includes(msg.channel.name)) {
             return; //Not in the right channel
         }
     }
-    msg.channel.send({
+
+    deepblue.sendMessage(msg.channel, {
         "embed": {
             "color": cfg.deepblue.embedColor,
             "fields": cfg.help.fields
         }
     });
+
+    msg.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
 }
 
 module.exports = HelpCommand;
