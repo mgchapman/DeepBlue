@@ -7,7 +7,6 @@ function LichessCommand(deepblue, msg) {
         }
     }
 
-
     let split = msg.content.split(/\s+/);
 
     if(split.length < 2) {

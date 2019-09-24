@@ -52,7 +52,7 @@ DeepBlue.prototype.onMessage = function(msg) {
         ListCommand(this, msg);
     } else if(cmd.startsWith("active") || cmd.startsWith("actlist")) {
         ActiveListCommand(this, msg);
-    } else if(cmd === "remove" || cmd === "unlink") {
+    } else if(cmd.startsWith("remove") || cmd.startsWith("unlink")) {
         RemoveCommand(this, msg);
     } else if(cmd === "arena") {
         ArenaCommand(this, msg);
@@ -63,7 +63,7 @@ DeepBlue.prototype.onMessage = function(msg) {
     } else if(cmd === "variants") {
         VariantsCommand(this, msg);
     }
-    console.log(new Date().toString(), msg.member.nickname || msg.author.username, msg.content);
+    console.log(new Date().toString(), msg.member.nickname || msg.author.username, ":", msg.content);
 };
 
 DeepBlue.prototype.sendMessage = function(channel, msg) {

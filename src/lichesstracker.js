@@ -173,7 +173,6 @@ LichessTracker.prototype.updateAll = function() {
     });
     chain.catch(console.error);
     chain.finally(() => {
-        console.log("Updated all!");
         setTimeout(() => {
             this.updateAll();
         }, cfg.lichessTracker.updateAllDelay);
@@ -282,6 +281,21 @@ LichessTracker.prototype.remove = function(msg, member) {
         if(msg) {
             this.deepblue.sendMessage(msg.channel, `No longer tracking ${member.nickname || member.user.username}.`);
         }
+    }
+};
+
+LichessTracker.prototype.removeByUsername = function(msg, username) {
+    let uid = this.getLinkedUserId(username);
+
+    if(uid) {
+        let member = this.deepblue.guild.members.get(uid);
+
+        delete this.data[uid];
+        this.dataManager.saveData(this.data);
+        this.deepblue.ratingRoleManager.removeRatingRole(member);
+        this.deepblue.sendMessage(msg.channel, `No longer tracking ${member.nickname || member.user.username}.`);
+    } else {
+        this.deepblue.sendMessage(msg.channel, `Couldn't find a member with Lichess username "${username}".`);
     }
 };
 
