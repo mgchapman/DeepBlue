@@ -72,7 +72,9 @@ DeepBlue.prototype.sendMessage = function(channel, msg) {
     }
     channel.send(msg)
     .then(sent => {
-        sent.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
+        if(!sent.deleted) {
+            sent.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
+        }
     }).catch(console.error);
 };
 
