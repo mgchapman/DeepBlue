@@ -276,7 +276,10 @@ LichessTracker.prototype.remove = function(msg, member) {
     if(existed) {
         delete this.data[member.id];
         this.dataManager.saveData(this.data);
-        this.deepblue.ratingRoleManager.removeRatingRole(member);
+
+        if(!member.deleted) {
+            this.deepblue.ratingRoleManager.removeRatingRole(member);
+        }
 
         if(msg) {
             this.deepblue.sendMessage(msg.channel, `No longer tracking ${member.nickname || member.user.username}.`);
