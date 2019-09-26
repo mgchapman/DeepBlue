@@ -33,8 +33,8 @@ function DeepBlue(discord) {
 }
 
 DeepBlue.prototype.onMessage = function(msg) {
-    if(!cfg.deepblue.commandStartChars.includes(msg.content[0])) {
-        return; //Not a command
+    if(!cfg.deepblue.commandStartChars.includes(msg.content[0]) || !msg.member) {
+        return; //Not a command, or a direct message
     }
     let cmd = msg.content.substring(1).toLowerCase();
 
@@ -63,6 +63,7 @@ DeepBlue.prototype.onMessage = function(msg) {
     } else if(cmd === "variants") {
         VariantsCommand(this, msg);
     }
+
     console.log(new Date().toString(), msg.member.nickname || msg.author.username, ":", msg.content);
 };
 
