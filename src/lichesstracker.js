@@ -192,7 +192,7 @@ LichessTracker.prototype.sendTrackSuccessMessageProvisional = function(channel, 
             "description": msg,
             "color": cfg.deepblue.embedColor
         }
-    });
+    }, true);
 };
 
 LichessTracker.prototype.sendTrackSuccessMessage = function(channel, perf, username, role, nickname) {
@@ -210,7 +210,7 @@ LichessTracker.prototype.sendTrackSuccessMessage = function(channel, perf, usern
             "description": msg,
             "color": cfg.deepblue.embedColor
         }
-    });
+    }, true); //Keep message
 }
 
 LichessTracker.prototype.track = function(msg, username) {
@@ -277,13 +277,12 @@ LichessTracker.prototype.remove = function(msg, member) {
         delete this.data[member.id];
         this.dataManager.saveData(this.data);
 
-        if(!member.deleted) {
+        if(msg) { //No message if left server, kicked
             this.deepblue.ratingRoleManager.removeRatingRole(member);
         }
 
-        if(msg) {
-            this.deepblue.sendMessage(msg.channel, `No longer tracking ${member.nickname || member.user.username}.`);
-        }
+        let channel = msg ? msg.channel : this.deepblue.botChannel;
+        this.deepblue.sendMessage(channel, `No longer tracking ${member.nickname || member.user.username}.`, true);
     }
 };
 
@@ -296,7 +295,7 @@ LichessTracker.prototype.removeByUsername = function(msg, username) {
         delete this.data[uid];
         this.dataManager.saveData(this.data);
         this.deepblue.ratingRoleManager.removeRatingRole(member);
-        this.deepblue.sendMessage(msg.channel, `No longer tracking ${member.nickname || member.user.username}.`);
+        this.deepblue.sendMessage(msg.channel, `No longer tracking ${member.nickname || member.user.username}.`, true);
     } else {
         this.deepblue.sendMessage(msg.channel, `Couldn't find a member with Lichess username "${username}".`);
     }
@@ -304,7 +303,7 @@ LichessTracker.prototype.removeByUsername = function(msg, username) {
 
 LichessTracker.prototype.getLinkedUserId = function(lichessUsername) {
     for(let uid in this.data) {
-        if(this.data[uid].username === lichessUsername) {
+        if(this.data[uid].username.toLowerCase() === lichessUsername.toLowerCase()) {
             return uid;
         }
     }
