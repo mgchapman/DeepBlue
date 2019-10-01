@@ -70,6 +70,12 @@ function ListCommand(deepblue, msg) {
         return isFinite(data.maxRating.rating);
     });
 
+    if(collectedData.length === 0) {
+        deepblue.sendMessage(msg.channel, "No non-provisional rankings found to be listed.");
+        msg.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
+        return;
+    }
+
     collectedData.sort((a, b) => {
         return b.maxRating.rating - a.maxRating.rating;
     });

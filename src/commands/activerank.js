@@ -135,9 +135,12 @@ function RankCommand(deepblue, msg) {
     result.embed.description += getRankText(allRatings, "chess960");
     result.embed.description += getRankText(allRatings, "crazyhouse");
 
-    if(roleRating.penalty || highObj.penalty || bestObj.penalty) {
-        result.embed.description += `\n\n▼ — Penalty of ${cfg.lichessTracker.highRatingDeviationPenalty}.`
-        result.embed.description += ` RD is above ${cfg.lichessTracker.ratingDeviationThreshold}.`;
+    for(let type in allRatings) {
+        if(allRatings[type].penalty) {
+            result.embed.description += `\n\n▼ — Penalty of ${cfg.lichessTracker.highRatingDeviationPenalty}.`
+            result.embed.description += ` RD is above ${cfg.lichessTracker.ratingDeviationThreshold}.`;
+            break;
+        }
     }
 
     deepblue.sendMessage(msg.channel, result);

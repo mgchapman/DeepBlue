@@ -86,7 +86,7 @@
                 "value": "Links you to a specific username on Lichess."
             },{
                 "name": "!Remove",
-                "value": "Removes you from the rating tracker."
+                "value": "Removes you from rating tracker."
             },{
                 "name": "!List [variant] [page]",
                 "value": "Displays leaderboard of players. Type !variants to see variant list."
@@ -94,10 +94,10 @@
                 "name": "!ActiveList [variant] [page]",
                 "value": "Displays leaderboard of players. Only lists people who are active on the server."
             },{
-                "name": "!Rank [@user or Lichess username]",
+                "name": "!Rank [@User or Lichess username]",
                 "value": "Displays your current ranking in the leaderboard."
             },{
-                "name": "!ActiveRank [@user or Lichess username]",
+                "name": "!ActiveRank [@User or Lichess username]",
                 "value": "Displays your current ranking in the active players leaderboard."
             },{
                 "name": "!Arena",
@@ -110,10 +110,13 @@
                 "value": "Toggles study role."
             },{
                 "name": "!Fen [FEN]",
-                "value": "Will show the board."
+                "value": "Will show chess board image with a given position."
             },{
                 "name": "!Variants",
                 "value": "Shows list of available variants for !list or !active commands."
+            },{
+                "name": "!Remove [@User or Lichess username]",
+                "value": "Staff only command. Removes given user or username from rating tracker."
             }
         ]
     }

@@ -67,13 +67,13 @@ DeepBlue.prototype.onMessage = function(msg) {
     console.log(new Date().toString(), msg.member.nickname || msg.author.username, ":", msg.content);
 };
 
-DeepBlue.prototype.sendMessage = function(channel, msg) {
+DeepBlue.prototype.sendMessage = function(channel, msg, keep) {
     if(!channel) {
         channel = this.botChannel;
     }
     channel.send(msg)
     .then(sent => {
-        if(!sent.deleted) {
+        if(!sent.deleted && !keep) {
             sent.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
         }
     }).catch(console.error);
