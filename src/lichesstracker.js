@@ -8,6 +8,8 @@ function LichessTracker(deepblue) {
     this.deepblue = deepblue;
     this.dataManager = new DataManager(cfg.lichessTracker.dataFile);
     this.data = this.dataManager.getData();
+    this.updateInterval = null;
+    this.lastUpdateAt = null;
     this.updateAll();
 }
 
@@ -173,6 +175,18 @@ LichessTracker.prototype.updateAll = function() {
     });
     chain.catch(console.error);
     chain.finally(() => {
+        this.lastUpdateAt = Date.now();
+
+        if(this.updateInterval) {
+            clearInterval(this.updateInterval);
+        }
+
+        this.updateInterval = setInterval(() => {
+            //Round to multiple of 2
+            let rem = Math.round((this.lastUpdateAt + cfg.lichessTracker.updateAllDelay - Date.now()) / 2000) * 2;
+            this.deepblue.discord.user.setActivity(`updates in ${rem}s`, { type: 'PLAYING' });
+        }, 8000);
+
         setTimeout(() => {
             this.updateAll();
         }, cfg.lichessTracker.updateAllDelay);

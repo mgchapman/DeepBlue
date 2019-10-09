@@ -1,6 +1,8 @@
 const cfg = require("./config.json");
 const DeepBlue = require("./src/deepblue.js");
-const client = new (require("discord.js")).Client();
+const client = new (require("discord.js")).Client({
+    disabledEvents: ["TYPING_START"]
+});
 
 client.login(cfg.discordToken);
 client.on("ready", () => {
