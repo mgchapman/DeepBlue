@@ -95,6 +95,9 @@ function RankCommand(deepblue, msg) {
     };
 
     let roleRating = PerformanceBreakdown.getMaxRating(userData.perfs, cfg.deepblue.perfsForRoles);
+    if(roleRating.penalty) {
+        roleRating.rating -= roleRating.penalty;
+    }
     result.embed.description += `Rating for role: **${roleRating.rating}** (${roleRating.type})${roleRating.penalty ? " ▼" : ""}`;
 
     //Finding highest rating rank
@@ -106,6 +109,9 @@ function RankCommand(deepblue, msg) {
             highObj = allRatings[type];
             highRating = rating;
         }
+    }
+    if(highObj.penalty) {
+        highObj.rating -= highObj.penalty;
     }
     result.embed.description += `\nHighest rating: **${highObj.rating}** (#${highObj.rank}, ${highObj.type})${highObj.penalty ? " ▼" : ""}`;
 
@@ -122,6 +128,9 @@ function RankCommand(deepblue, msg) {
         }
     }
     if(bestObj) {
+        if(bestObj.penalty) {
+            bestObj.rating -= bestObj.penalty;
+        }
         result.embed.description += `\nBest rank: **#${bestObj.rank}** (${bestObj.rating}, ${bestObj.type})${bestObj.penalty ? " ▼" : ""}\n`;
     }
 

@@ -341,7 +341,7 @@ LichessTracker.prototype.getLichessManyUsersData = function(usernames) {
                 return reject("Error accessing Lichess API.");
             }
             if(body.length === 0) {
-                return reject(`Couldn't find "${username}" on Lichess.`);
+                return reject(`Couldn't find one of "${usernames}" on Lichess.`);
             }
             let json = null;
             try {

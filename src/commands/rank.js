@@ -80,6 +80,9 @@ function RankCommand(deepblue, msg) {
     if(!isFinite(roleRating.rating)) {
         result.embed.description += `Rating for role: **Provisional**`;
     } else {
+        if(roleRating.penalty) {
+            roleRating.rating -= roleRating.penalty;
+        }
         result.embed.description += `Rating for role: **${roleRating.rating}${roleRating.penalty ? "▼" : ""}** (${roleRating.type})`;
     }
 

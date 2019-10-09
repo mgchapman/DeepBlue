@@ -25,7 +25,7 @@ RatingRoleManager.prototype.assignRatingRole = function(member, perf) {
     //Remove other rating roles, if there are any
     let alreadyHasMatchedRole = false;
     member.roles.some(role => {
-        if(this.roles.includes(role.name)) {
+        if(this.roles.includes(role.name) || role.name === this.provisionalRole) {
             if(role.name === matchedRole) {
                 alreadyHasMatchedRole = true;
                 actualRole = role;

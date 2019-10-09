@@ -33,7 +33,12 @@ PerformanceBreakdown.getRank = function(allData, pivotUid, types, activeOnly) {
     });
 
     keys.sort((a, b) => {
-        return b.maxRating.rating - a.maxRating.rating;
+        if(activeOnly) {
+            //Apply penalties when ranking
+            return (b.maxRating.rating - (b.maxRating.penalty || 0)) - (a.maxRating.rating - (a.maxRating.penalty || 0));
+        } else {
+            return b.maxRating.rating - a.maxRating.rating;
+        }
     });
 
     for(let i = 0; i < keys.length; i++) {
@@ -44,6 +49,7 @@ PerformanceBreakdown.getRank = function(allData, pivotUid, types, activeOnly) {
 };
 
 PerformanceBreakdown.getFideEstimate = function(perfs) {
+    //Classical rating
     let cr = null;
     if(perfs.classical && !perfs.classical.prov) {
         cr = perfs.classical.rating;
