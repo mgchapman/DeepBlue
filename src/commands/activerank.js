@@ -116,9 +116,6 @@ function RankCommand(deepblue, msg) {
             highRating = rating;
         }
     }
-    if(highObj.penalty) {
-        highObj.rating -= highObj.penalty;
-    }
     result.embed.description += `\nHighest rating: **${highObj.rating}** (#${highObj.rank}, ${highObj.type})${highObj.penalty ? " ▼" : ""}`;
 
     //Finding best rank
@@ -134,9 +131,6 @@ function RankCommand(deepblue, msg) {
         }
     }
     if(bestObj) {
-        if(bestObj.penalty) {
-            bestObj.rating -= bestObj.penalty;
-        }
         result.embed.description += `\nBest rank: **#${bestObj.rank}** (${bestObj.rating}, ${bestObj.type})${bestObj.penalty ? " ▼" : ""}\n`;
     }
 
