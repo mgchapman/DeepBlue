@@ -98,6 +98,11 @@ LichessTracker.prototype.updateManyUsers = function(lichessData) {
         let valid = this.validateLichessParsedData(parsedData);
         if(uid && valid) {
             let member = this.deepblue.guild.members.get(uid);
+            if(!member) {
+                delete this.data[uid];
+                continue;
+            }
+
             let name = member.nickname || member.user.username;
 
             if(member.lastMessage) {

@@ -64,6 +64,12 @@ function RankCommand(deepblue, msg) {
                 continue;
             }
         }
+        if(uid === member.id) {
+            //If asking active rating for an inactive member
+            deepblue.sendMessage(msg.channel, "Member is inactive. Cannot fetch active ranks.");
+            msg.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
+            return;
+        }
         delete allData[uid];
     }
 
