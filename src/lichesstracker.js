@@ -232,7 +232,7 @@ LichessTracker.prototype.sendTrackSuccessMessage = function(channel, perf, usern
     }, true); //Keep message
 }
 
-LichessTracker.prototype.track = function(msg, usernamem, member) {
+LichessTracker.prototype.track = function(msg, username, member) {
     member = member || msg.member;
 
     this.getLichessUserData(username)
@@ -271,7 +271,7 @@ LichessTracker.prototype.track = function(msg, usernamem, member) {
                 if(member.lastMessage) {
                     parsedData.lastMessageAt = member.lastMessage.createdTimestamp;
                 } else {
-                    parsedData.lastMessageAt = this.data[member.id].lastMessageAt;
+                    parsedData.lastMessageAt = Date.now();
                 }
 
                 this.data[member.id] = parsedData;
