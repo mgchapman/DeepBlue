@@ -66,8 +66,9 @@ LichessTracker.prototype.parseLichessUserData = function(data) {
         }
 
         //Decrease rating if RD is above theshold and rating above threshold
+        //-1 for clearing up rounding, as Lichess shows RD with decimals
         if(!data.perfs[type].prov
-            && data.perfs[type].rd > cfg.lichessTracker.ratingDeviationThreshold) {
+            && data.perfs[type].rd > cfg.lichessTracker.ratingDeviationThreshold - 1) {
 
             data.perfs[type].penalty = cfg.lichessTracker.highRatingDeviationPenalty;
         }
