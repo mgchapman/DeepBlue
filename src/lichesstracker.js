@@ -233,7 +233,7 @@ LichessTracker.prototype.sendTrackSuccessMessage = function(channel, perf, usern
 }
 
 LichessTracker.prototype.track = function(msg, usernamem, member) {
-    member = msg.member || member;
+    member = member || msg.member;
 
     this.getLichessUserData(username)
     .then((lichessUserData) => {
