@@ -117,6 +117,9 @@
             },{
                 "name": "!Remove [@User or Lichess username]",
                 "value": "Staff only command. Removes given user or username from rating tracker."
+            },{
+                "name": "!Lichess [Lichess Username] [@User]",
+                "value": "Staff only command. Links given user to a specific username on Lichess."
             }
         ]
     }

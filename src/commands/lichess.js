@@ -13,6 +13,21 @@ function LichessCommand(deepblue, msg) {
         deepblue.sendMessage(msg.channel, "Not enough parameters.");
     } else if(split.length === 2) {
         deepblue.lichessTracker.track(msg, split[1]);
+    } else if(split.length === 3) {
+        let staffRoleOnMember = msg.member.roles.find(val => val.name === cfg.deepblue.staffRole);
+
+        if(staffRoleOnMember) {
+            //Check if mention
+            let member = deepblue.getMemberFromMention(split[1]);
+
+            if(member) {
+                deepblue.lichessTracker.track(msg, split[1], member);
+            } else {
+                deepblue.sendMessage(msg.channel, "Couldn't find a member from mention.");
+            }
+        } else {
+            deepblue.sendMessage(msg.channel, "You do not have a staff role to use this command.");
+        }
     } else {
         deepblue.sendMessage(msg.channel, "Too many parameters.");
     }

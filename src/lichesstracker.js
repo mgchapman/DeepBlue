@@ -232,11 +232,13 @@ LichessTracker.prototype.sendTrackSuccessMessage = function(channel, perf, usern
     }, true); //Keep message
 }
 
-LichessTracker.prototype.track = function(msg, username) {
+LichessTracker.prototype.track = function(msg, usernamem, member) {
+    member = msg.member || member;
+
     this.getLichessUserData(username)
     .then((lichessUserData) => {
-        if(this.data[msg.member.id] && this.data[msg.member.id].username) {
-            let url = cfg.lichessTracker.lichessProfileUrl.replace("%username%", this.data[msg.member.id].username);
+        if(this.data[member.id] && this.data[member.id].username) {
+            let url = cfg.lichessTracker.lichessProfileUrl.replace("%username%", this.data[member.id].username);
             this.deepblue.sendMessage(msg.channel, `Previously you were tracked as ${url}.`);
         }
 
@@ -247,32 +249,32 @@ LichessTracker.prototype.track = function(msg, username) {
             if(valid) {
                 if(parsedData.allProvisional) {
                     //If all provisional, only add provisional role, still keep track
-                    let role = this.deepblue.ratingRoleManager.assignProvisionalRole(msg.member);
+                    let role = this.deepblue.ratingRoleManager.assignProvisionalRole(member);
                     this.sendTrackSuccessMessageProvisional(
                         msg.channel,
                         parsedData.username,
                         role,
-                        msg.member.nickname || msg.author.username
+                        member.nickname || msg.author.username
                     );
                 } else {
                     let perf = PerformanceBreakdown.getMaxRating(parsedData.perfs, cfg.deepblue.perfsForRoles);
-                    let role = this.deepblue.ratingRoleManager.assignRatingRole(msg.member, perf);
+                    let role = this.deepblue.ratingRoleManager.assignRatingRole(member, perf);
                     this.sendTrackSuccessMessage(
                         msg.channel,
                         perf,
                         parsedData.username,
                         role,
-                        msg.member.nickname || msg.author.username
+                        member.nickname || member.user.username
                     );
                 }
 
-                if(msg.member.lastMessage) {
-                    parsedData.lastMessageAt = msg.member.lastMessage.createdTimestamp;
+                if(member.lastMessage) {
+                    parsedData.lastMessageAt = member.lastMessage.createdTimestamp;
                 } else {
-                    parsedData.lastMessageAt = this.data[msg.member.id].lastMessageAt;
+                    parsedData.lastMessageAt = this.data[member.id].lastMessageAt;
                 }
 
-                this.data[msg.member.id] = parsedData;
+                this.data[member.id] = parsedData;
                 this.dataManager.saveData(this.data);
             } else if(parsedData.closed) {
                 this.deepblue.sendMessage(msg.channel, `Account "${parsedData.username}" is closed on Lichess.`);

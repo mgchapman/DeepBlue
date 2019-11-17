@@ -62,6 +62,8 @@ DeepBlue.prototype.onMessage = function(msg) {
         StudyCommand(this, msg);
     } else if(cmd === "variants") {
         VariantsCommand(this, msg);
+    } else if(cmd === "update") {
+        this.sendMessage(msg.channel, "Bot auto updates now. Check when the next update is due in the bot's status message.");
     }
 
     console.log(new Date().toString(), msg.member.nickname || msg.author.username, ":", msg.content);
