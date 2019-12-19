@@ -90,17 +90,24 @@ RatingRoleManager.prototype.removeRatingRole = function(member) {
 RatingRoleManager.prototype.getRatingRoleForRating = function(rating) {
     //Find appropriate rating role
     //Lowest role edge case
-    let matchedRole = rating < parseInt(this.roles[0]) ? this.roles[0] : null;
-    if(!matchedRole) {
-        //Starting with 2nd lowest
-        for(let i = 1; i < this.roles.length; i++) {
-            let r = parseInt(this.roles[i]);
-            if(rating >= r) {
-                matchedRole = this.roles[i];
-            } else {
-                break; //Implies that roles in config are in order
-            }
-        }
+    if(rating < 1000){
+        matchedRole = this.roles[0];
+    } else if(rating >= 1000 && rating < 1200){
+        matchedRole = this.roles[1];
+    } else if(rating >= 1200 && rating < 1400){
+        matchedRole = this.roles[2];
+    } else if(rating >= 1400 && rating < 1600){
+        matchedRole = this.roles[3];
+    } else if(rating >= 1600 && rating < 1800){
+        matchedRole = this.roles[4];
+    } else if(rating >= 1800 && rating < 2000){
+        matchedRole = this.roles[5];
+    } else if(rating >= 2000 && rating < 2200){
+        matchedRole = this.roles[6];
+    } else if(rating >= 2200 && rating < 2500){
+        matchedRole = this.roles[7];
+    } else if(rating >= 2500){
+        matchedRole = this.roles[8];
     }
 
     if(!matchedRole) {
