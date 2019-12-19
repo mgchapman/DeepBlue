@@ -41,38 +41,11 @@
         "analysisUrl": "https://lichess.org/analysis?fen=",
         "fenImgeApiUrl": "https://www.chess.com/dynboard"
     },
-    "variants": {
-        "channels": ["moderation", "general"],
-        "list": [
-            "Bullet",
-            "Blitz",
-            "Rapid",
-            "Classical",
-            "Chess960 or 960",
-            "Crazyhouse or ZH or even CH"
-        ]
-    },
     "lichess": {
         "channels": ["moderation", "general"]
     },
-    "rank": {
-        "channels": ["moderation", "general"]
-    },
-    "list": {
-        "channels": ["moderation", "general"],
-        "perPage": 15,
-        "inactiveThreshold": 1209600000
-    },
     "remove": {
         "channels": ["moderation", "general"]
-    },
-    "arena": {
-        "channels": ["moderation", "general"],
-        "arenaRoleName": "Arena"
-    },
-    "league": {
-        "channels": ["moderation", "general"],
-        "leagueRoleName": "League"
     },
     "study": {
         "channels": ["moderation", "general"],
@@ -88,32 +61,11 @@
                 "name": "!Remove",
                 "value": "Removes you from rating tracker."
             },{
-                "name": "!List [variant] [page]",
-                "value": "Displays leaderboard of players. Type !variants to see variant list."
-            },{
-                "name": "!ActiveList [variant] [page]",
-                "value": "Displays leaderboard of players. Only lists people who are active on the server."
-            },{
-                "name": "!Rank [@User or Lichess username]",
-                "value": "Displays your current ranking in the leaderboard."
-            },{
-                "name": "!ActiveRank [@User or Lichess username]",
-                "value": "Displays your current ranking in the active players leaderboard."
-            },{
-                "name": "!Arena",
-                "value": "Toggles arena role."
-            },{
-                "name": "!League",
-                "value": "Toggles league role."
-            },{
                 "name": "!Study",
                 "value": "Toggles study role."
             },{
                 "name": "!Fen [FEN]",
                 "value": "Will show chess board image with a given position."
-            },{
-                "name": "!Variants",
-                "value": "Shows list of available variants for !list or !active commands."
             },{
                 "name": "!Remove [@User or Lichess username]",
                 "value": "Staff only command. Removes given user or username from rating tracker."

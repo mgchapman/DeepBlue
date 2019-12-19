@@ -1,20 +1,12 @@
 const cfg = require("../config.json");
 const FenCommand = require("./commands/fen.js");
 const HelpCommand = require("./commands/help.js");
-const ArenaCommand = require("./commands/arena.js");
-const LeagueCommand = require("./commands/league.js");
 const StudyCommand = require("./commands/study.js");
-const VariantsCommand = require("./commands/variants.js");
 const LichessCommand = require("./commands/lichess.js");
 const RemoveCommand = require("./commands/remove.js");
 
 const RatingRoleManager = require("./ratingrolemanager.js");
 const LichessTracker = require("./lichesstracker.js");
-
-const ListCommand = require("./commands/list.js");
-const ActiveListCommand = require("./commands/activelist.js");
-const RankCommand = require("./commands/rank.js");
-const ActiveRankCommand = require("./commands/activerank.js");
 
 function DeepBlue(discord) {
     this.guild = discord.guilds.first();
@@ -44,24 +36,10 @@ DeepBlue.prototype.onMessage = function(msg) {
         HelpCommand(this, msg);
     } else if(cmd.startsWith("lichess") || cmd.startsWith("link")) {
         LichessCommand(this, msg);
-    } else if(cmd.startsWith("rank") || cmd.startsWith("myrank")) {
-        RankCommand(this, msg);
-    } else if(cmd.startsWith("activerank") || cmd.startsWith("activemyrank") || cmd.startsWith("actrank") || cmd.startsWith("actmyrank")) {
-        ActiveRankCommand(this, msg);
-    } else if(cmd.startsWith("list")) {
-        ListCommand(this, msg);
-    } else if(cmd.startsWith("active") || cmd.startsWith("actlist")) {
-        ActiveListCommand(this, msg);
     } else if(cmd.startsWith("remove") || cmd.startsWith("unlink")) {
         RemoveCommand(this, msg);
-    } else if(cmd === "arena") {
-        ArenaCommand(this, msg);
-    } else if(cmd === "league") {
-        LeagueCommand(this, msg);
     } else if(cmd === "study") {
         StudyCommand(this, msg);
-    } else if(cmd === "variants") {
-        VariantsCommand(this, msg);
     } else if(cmd === "update") {
         this.sendMessage(msg.channel, "Bot auto updates now. Check when the next update is due in the bot's status message.");
     }

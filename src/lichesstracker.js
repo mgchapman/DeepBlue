@@ -1,6 +1,5 @@
 const request = require("request");
 const cfg = require("../config.json");
-const EmojiSelector = require("./emoji.js");
 const DataManager = require("./datamanager.js");
 const PerformanceBreakdown = require("./perf.js");
 
@@ -137,11 +136,11 @@ LichessTracker.prototype.updateManyUsers = function(lichessData) {
                         updatedRole,
                         name
                     );
-                    this.deepblue.sendMessage(null, `${name} went from provisional rating to ${mrInt}! Congratulations! ${EmojiSelector("happy")}`);
+                    this.deepblue.sendMessage(null, `${name} went from provisional rating to ${mrInt}! Congratulations!`);
                 } else if(mrInt > crrInt) {
-                    this.deepblue.sendMessage(null, `${name} went from ${crrInt} to ${mrInt}! Congratulations! ${EmojiSelector("happy")}`);
+                    this.deepblue.sendMessage(null, `${name} went from ${crrInt} to ${mrInt}! Congratulations!`);
                 } else if(mrInt < crrInt) {
-                    this.deepblue.sendMessage(null, `${name} went from ${crrInt} to ${mrInt}. ${EmojiSelector("sad")}`);
+                    this.deepblue.sendMessage(null, `${name} went from ${crrInt} to ${mrInt}.`);
                 }
             }
 

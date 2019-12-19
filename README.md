@@ -1,4 +1,4 @@
-# DeepBlueBot2
+# DeepBlueBot3
 
 Requires node.
 
@@ -6,5 +6,3 @@ Requires node.
 2) copy config, remove ".client" bit so its "config.json".
 3) change config.json to your discord bot's token, and other settings.
 4) "node index" to run it.
-
-Thats it. Don't @ me.
