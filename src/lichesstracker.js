@@ -136,11 +136,11 @@ LichessTracker.prototype.updateManyUsers = function(lichessData) {
                         updatedRole,
                         name
                     );
-                    this.deepblue.sendMessage(null, `${name} went from provisional rating to ${mrInt}! Congratulations! ${EmojiSelector("happy")}`);
+                    this.deepblue.sendMessage(null, `${name} went from provisional rating to ${mrInt}! Congratulations!`);
                 } else if(mrInt > crrInt) {
-                    this.deepblue.sendMessage(null, `${name} went from ${crrInt} to ${mrInt}! Congratulations! ${EmojiSelector("happy")}`);
+                    this.deepblue.sendMessage(null, `${name} went from ${crrInt} to ${mrInt}! Congratulations!`);
                 } else if(mrInt < crrInt) {
-                    this.deepblue.sendMessage(null, `${name} went from ${crrInt} to ${mrInt}. ${EmojiSelector("sad")}`);
+                    this.deepblue.sendMessage(null, `${name} went from ${crrInt} to ${mrInt}.`);
                 }
             }
 
