@@ -200,11 +200,6 @@ LichessTracker.prototype.sendTrackSuccessMessage = function(channel, perf, usern
     let title = `Linked ${nickname} to ${cfg.lichessTracker.lichessProfileUrl.replace("%username%", username)}`;
     let msg = `Added to rating group **${role.name}** with a rating of **${perf.rating}** (${perf.type})`;
 
-    if(perf.penalty) {
-        msg += ` ▼\n\n▼ — Penalty of ${cfg.lichessTracker.highRatingDeviationPenalty}.`
-        msg += ` RD is above ${cfg.lichessTracker.ratingDeviationThreshold}.`;
-    }
-
     this.deepblue.sendMessage(channel, {
         "embed": {
             "title": title,
