@@ -48,30 +48,6 @@ PerformanceBreakdown.getRank = function(allData, pivotUid, types, activeOnly) {
     }
 };
 
-PerformanceBreakdown.getFideEstimate = function(perfs) {
-    //Classical rating
-    let cr = null;
-    if(perfs.classical && !perfs.classical.prov) {
-        cr = perfs.classical.rating;
-    }
-
-    //Blitz rating
-    let br = null;
-    if(perfs.blitz && !perfs.blitz.prov) {
-        br = perfs.blitz.rating;
-    }
-
-    if(cr && br) {
-        if(cr > 2100 || br > 2100) {
-            return (br + cr + cr + cr) / 4 - 150;
-        } else {
-            return (br + br + br + cr) / 4 - 150;
-        }
-    } else {
-        return null;
-    }
-}
-
 PerformanceBreakdown.toPerfName = function(name) {
     if(name === "ultrabullet" || name === "ultra") {
         return "ultraBullet";
@@ -105,10 +81,6 @@ PerformanceBreakdown.perfToReadable = function(name) {
     if(name === "threeCheck") {
         return "Three Check";
     }
-    if(name === "fide") {
-        return "FIDE estimate";
-    }
-
     return name[0].toUpperCase() + name.slice(1);
 };
 
