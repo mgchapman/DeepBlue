@@ -64,27 +64,9 @@ LichessTracker.prototype.parseLichessUserData = function(data) {
             continue;
         }
 
-        //Decrease rating if RD is above theshold and rating above threshold
-        //-1 for clearing up rounding, as Lichess shows RD with decimals
-        if(!data.perfs[type].prov
-            && data.perfs[type].rd > cfg.lichessTracker.ratingDeviationThreshold - 1) {
-
-            data.perfs[type].penalty = cfg.lichessTracker.highRatingDeviationPenalty;
-        }
     }
     if(allProvisional) {
         output.allProvisional = true;
-    }
-
-    //Add custom FIDE perf if possible
-    let fide = PerformanceBreakdown.getFideEstimate(data.perfs);
-    if(fide) {
-        data.perfs.fide = {
-            "rating": Math.round(fide),
-            "rd": 0,
-            "games": -1,
-            "prog": -1
-        };
     }
 
     output.perfs = data.perfs;
