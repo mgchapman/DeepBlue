@@ -10,9 +10,9 @@ PerformanceBreakdown.getMaxRating = function(perfs, types) {
     for(type in perfs) {
         if(types && types.includes(type) || !types) {
             if(!perfs[type].prov) {
-                let penRat1 = perfs[type].rating - (perfs[type].penalty || 0);
-                let penRat2 = maxRating.rating - (maxRating.penalty || 0);
-                if(penRat1 > penRat2) {
+                let Rat1 = perfs[type].rating;
+                let Rat2 = maxRating.rating;
+                if(Rat1 > Rat2) {
                     maxRating = perfs[type];
                     maxRating.type = PerformanceBreakdown.perfToReadable(type);
                 }
@@ -33,12 +33,7 @@ PerformanceBreakdown.getRank = function(allData, pivotUid, types, activeOnly) {
     });
 
     keys.sort((a, b) => {
-        if(activeOnly) {
-            //Apply penalties when ranking
-            return (b.maxRating.rating - (b.maxRating.penalty || 0)) - (a.maxRating.rating - (a.maxRating.penalty || 0));
-        } else {
-            return b.maxRating.rating - a.maxRating.rating;
-        }
+        return b.maxRating.rating - a.maxRating.rating;
     });
 
     for(let i = 0; i < keys.length; i++) {
