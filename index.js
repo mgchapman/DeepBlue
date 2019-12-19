@@ -11,8 +11,6 @@ client.on("ready", () => {
     roles.push(cfg.ratingRoleManager.unrankedRole);
     roles.push(cfg.ratingRoleManager.provisionalRole);
     roles.push(cfg.deepblue.staffRole);
-    roles.push(cfg.league.leagueRoleName);
-    roles.push(cfg.arena.arenaRoleName);
     roles.push(cfg.study.studyRoleName);
 
     for(let i = 0; i < roles.length; i++) {
