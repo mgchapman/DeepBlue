@@ -14,7 +14,6 @@ function HelpCommand(deepblue, msg) {
         }
     });
 
-    msg.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
 }
 
 module.exports = HelpCommand;

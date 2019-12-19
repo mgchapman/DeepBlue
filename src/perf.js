@@ -10,9 +10,9 @@ PerformanceBreakdown.getMaxRating = function(perfs, types) {
     for(type in perfs) {
         if(types && types.includes(type) || !types) {
             if(!perfs[type].prov) {
-                let penRat1 = perfs[type].rating - (perfs[type].penalty || 0);
-                let penRat2 = maxRating.rating - (maxRating.penalty || 0);
-                if(penRat1 > penRat2) {
+                let Rat1 = perfs[type].rating;
+                let Rat2 = maxRating.rating;
+                if(Rat1 > Rat2) {
                     maxRating = perfs[type];
                     maxRating.type = PerformanceBreakdown.perfToReadable(type);
                 }
@@ -33,12 +33,7 @@ PerformanceBreakdown.getRank = function(allData, pivotUid, types, activeOnly) {
     });
 
     keys.sort((a, b) => {
-        if(activeOnly) {
-            //Apply penalties when ranking
-            return (b.maxRating.rating - (b.maxRating.penalty || 0)) - (a.maxRating.rating - (a.maxRating.penalty || 0));
-        } else {
-            return b.maxRating.rating - a.maxRating.rating;
-        }
+        return b.maxRating.rating - a.maxRating.rating;
     });
 
     for(let i = 0; i < keys.length; i++) {
@@ -47,30 +42,6 @@ PerformanceBreakdown.getRank = function(allData, pivotUid, types, activeOnly) {
         }
     }
 };
-
-PerformanceBreakdown.getFideEstimate = function(perfs) {
-    //Classical rating
-    let cr = null;
-    if(perfs.classical && !perfs.classical.prov) {
-        cr = perfs.classical.rating;
-    }
-
-    //Blitz rating
-    let br = null;
-    if(perfs.blitz && !perfs.blitz.prov) {
-        br = perfs.blitz.rating;
-    }
-
-    if(cr && br) {
-        if(cr > 2100 || br > 2100) {
-            return (br + cr + cr + cr) / 4 - 150;
-        } else {
-            return (br + br + br + cr) / 4 - 150;
-        }
-    } else {
-        return null;
-    }
-}
 
 PerformanceBreakdown.toPerfName = function(name) {
     if(name === "ultrabullet" || name === "ultra") {
@@ -105,10 +76,6 @@ PerformanceBreakdown.perfToReadable = function(name) {
     if(name === "threeCheck") {
         return "Three Check";
     }
-    if(name === "fide") {
-        return "FIDE estimate";
-    }
-
     return name[0].toUpperCase() + name.slice(1);
 };
 

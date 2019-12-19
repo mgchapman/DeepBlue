@@ -52,11 +52,6 @@ DeepBlue.prototype.sendMessage = function(channel, msg, keep) {
         channel = this.botChannel;
     }
     channel.send(msg)
-    .then(sent => {
-        if(!sent.deleted && !keep) {
-            sent.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
-        }
-    }).catch(console.error);
 };
 
 DeepBlue.prototype.getMemberFromMention = function(text) {

@@ -64,27 +64,9 @@ LichessTracker.prototype.parseLichessUserData = function(data) {
             continue;
         }
 
-        //Decrease rating if RD is above theshold and rating above threshold
-        //-1 for clearing up rounding, as Lichess shows RD with decimals
-        if(!data.perfs[type].prov
-            && data.perfs[type].rd > cfg.lichessTracker.ratingDeviationThreshold - 1) {
-
-            data.perfs[type].penalty = cfg.lichessTracker.highRatingDeviationPenalty;
-        }
     }
     if(allProvisional) {
         output.allProvisional = true;
-    }
-
-    //Add custom FIDE perf if possible
-    let fide = PerformanceBreakdown.getFideEstimate(data.perfs);
-    if(fide) {
-        data.perfs.fide = {
-            "rating": Math.round(fide),
-            "rd": 0,
-            "games": -1,
-            "prog": -1
-        };
     }
 
     output.perfs = data.perfs;
@@ -217,11 +199,6 @@ LichessTracker.prototype.sendTrackSuccessMessageProvisional = function(channel, 
 LichessTracker.prototype.sendTrackSuccessMessage = function(channel, perf, username, role, nickname) {
     let title = `Linked ${nickname} to ${cfg.lichessTracker.lichessProfileUrl.replace("%username%", username)}`;
     let msg = `Added to rating group **${role.name}** with a rating of **${perf.rating}** (${perf.type})`;
-
-    if(perf.penalty) {
-        msg += ` ▼\n\n▼ — Penalty of ${cfg.lichessTracker.highRatingDeviationPenalty}.`
-        msg += ` RD is above ${cfg.lichessTracker.ratingDeviationThreshold}.`;
-    }
 
     this.deepblue.sendMessage(channel, {
         "embed": {
