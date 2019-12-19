@@ -19,7 +19,7 @@ RatingRoleManager.prototype.assignRatingRole = function(member, perf) {
         member.removeRole(unranked).catch(console.error);
     }
 
-    let matchedRole = this.getRatingRoleForRating(perf.rating - (perf.penalty || 0));
+    let matchedRole = this.getRatingRoleForRating(perf.rating);
     let actualRole = null;
 
     //Remove other rating roles, if there are any
