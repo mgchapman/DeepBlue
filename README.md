@@ -1,4 +1,4 @@
-# DeepBlueBot3
+# DeepBlue3
 
 Requires node.
 
