@@ -1,6 +1,5 @@
 const request = require("request");
 const cfg = require("../config.json");
-const EmojiSelector = require("./emoji.js");
 const DataManager = require("./datamanager.js");
 const PerformanceBreakdown = require("./perf.js");
 
