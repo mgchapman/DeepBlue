@@ -19,7 +19,6 @@ function StudyCommand(deepblue, msg) {
         deepblue.sendMessage(msg.channel, "Study role added.");
     }
 
-    msg.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
 }
 
 module.exports = StudyCommand;
