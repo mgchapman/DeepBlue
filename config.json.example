@@ -27,7 +27,7 @@
         "lichessProfileUrl": "https://lichess.org/@/%username%",
         "apiRequestTimeout": 5000,
         "perRequest": 50,
-        "updateAllDelay": 300000,
+        "updateAllDelay": 300000
     },
     "fen": {
         "board": "icy_sea",
