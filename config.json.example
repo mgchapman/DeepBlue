@@ -8,18 +8,16 @@
         "perfsForRoles": ["blitz", "rapid"],
         "allPerfs": [
             "bullet", "blitz", "rapid", "classical",
-            "chess960", "crazyhouse", "fide"
+            "chess960", "crazyhouse"
         ],
-        "messageDeleteDelay": 600000,
         "staffRole": "Staff"
     },
     "ratingRoleManager": {
         "unrankedRole": "Unranked",
         "provisionalRole": "Provisional",
         "roles": [
-            "1000-", "1000+", "1100+", "1200+", "1300+", "1400+", "1500+",
-            "1600+", "1700+", "1800+", "1900+", "2000+", "2100+", "2200+",
-            "2300+", "2400+", "2500+", "2600+", "2700++"
+            "White Belt", "Yellow Belt", "Orange Belt", "Green Belt", "Blue Belt", "Purple Belt", "Brown Belt",
+            "Red Belt", "Black Belt"
         ]
     },
     "lichessTracker": {
@@ -30,8 +28,6 @@
         "apiRequestTimeout": 5000,
         "perRequest": 50,
         "updateAllDelay": 300000,
-        "ratingDeviationThreshold": 75,
-        "highRatingDeviationPenalty": 200
     },
     "fen": {
         "board": "icy_sea",
