@@ -32,7 +32,6 @@ function LichessCommand(deepblue, msg) {
         deepblue.sendMessage(msg.channel, "Too many parameters.");
     }
 
-    msg.delete(cfg.deepblue.messageDeleteDelay).catch(console.error);
 }
 
 module.exports = LichessCommand;
