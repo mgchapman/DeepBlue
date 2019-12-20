@@ -2,6 +2,7 @@ const request = require("request");
 const cfg = require("../config.json");
 const DataManager = require("./datamanager.js");
 const PerformanceBreakdown = require("./perf.js");
+const LichessScraper = require("./lichessScraper.js");
 
 function LichessTracker(deepblue) {
     this.deepblue = deepblue;
@@ -52,11 +53,17 @@ LichessTracker.prototype.parseLichessUserData = function(data) {
     }
 
     let allProvisional = true;
+    let peaks = {};
+    let i = 0;
+    
     for(let type in data.perfs) {
         if(cfg.deepblue.perfsForRoles.includes(type)) {
-            if(!data.perfs[type].prov) {
+            let url = `https://lichess.org/@/${data.username}/perf/${type}`
+            let peaks[i] = lichessScraper(url);
+            if(!(peaks[i] = "")) {
                 allProvisional = false;
             }
+            i = i+1
         }
 
         if(!cfg.deepblue.allPerfs.includes(type)) {
@@ -70,6 +77,7 @@ LichessTracker.prototype.parseLichessUserData = function(data) {
     }
 
     output.perfs = data.perfs;
+    output.peaks = peaks;
     return output;
 };
 
