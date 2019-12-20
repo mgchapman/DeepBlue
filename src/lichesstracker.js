@@ -31,7 +31,7 @@ LichessTracker.prototype.validateLichessParsedData = function(data, noModSpam) {
     return true;
 };
 
-LichessTracker.prototype.parseLichessUserData = function(data) {
+LichessTracker.prototype.parseLichessUserData = async function(data) {
     let output = {};
     output.username = data.username;
 
@@ -59,8 +59,10 @@ LichessTracker.prototype.parseLichessUserData = function(data) {
     for(let type in data.perfs) {
         if(cfg.deepblue.perfsForRoles.includes(type)) {
             let url = `https://lichess.org/@/${data.username}/perf/${type}`;
-            peaks[i] = LichessScraper(url);
-            if(!(peaks[i] = "")) {
+	    let peakRating = await LichessScraper(url);
+	    peaks[i] = peakRating;
+
+            if(!data.perfs[type].prov) {
                 allProvisional = false;
             }
             i = i+1;
@@ -108,7 +110,7 @@ LichessTracker.prototype.updateManyUsers = function(lichessData) {
             }
 
             let currentRatingRole = this.deepblue.ratingRoleManager.getCurrentRatingRole(member);
-            let perf = PerformanceBreakdown.getMaxRating(parsedData.perfs, cfg.deepblue.perfsForRoles);
+            let perf = PerformanceBreakdown.getMaxRating(parsedData.peaks, cfg.deepblue.perfsForRoles);
             let updatedRole = this.deepblue.ratingRoleManager.assignRatingRole(
                 member,
                 perf
@@ -221,13 +223,13 @@ LichessTracker.prototype.track = function(msg, username, member) {
     member = member || msg.member;
 
     this.getLichessUserData(username)
-    .then((lichessUserData) => {
+    .then(async (lichessUserData) => {
         if(this.data[member.id] && this.data[member.id].username) {
             let url = cfg.lichessTracker.lichessProfileUrl.replace("%username%", this.data[member.id].username);
             this.deepblue.sendMessage(msg.channel, `Previously you were tracked as ${url}.`);
         }
 
-        let parsedData = this.parseLichessUserData(lichessUserData);
+        let parsedData = await this.parseLichessUserData(lichessUserData);
 
         if(parsedData) {
             let valid = this.validateLichessParsedData(parsedData, true);
@@ -242,7 +244,7 @@ LichessTracker.prototype.track = function(msg, username, member) {
                         member.nickname || msg.author.username
                     );
                 } else {
-                    let perf = PerformanceBreakdown.getMaxRating(parsedData.perfs, cfg.deepblue.perfsForRoles);
+                    let perf = PerformanceBreakdown.getMaxRating(parsedData.peaks, cfg.deepblue.perfsForRoles);
                     let role = this.deepblue.ratingRoleManager.assignRatingRole(member, perf);
                     this.sendTrackSuccessMessage(
                         msg.channel,
