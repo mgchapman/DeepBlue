@@ -53,17 +53,17 @@ LichessTracker.prototype.parseLichessUserData = function(data) {
     }
 
     let allProvisional = true;
-    let peaks = {};
+    let peaks = [];
     let i = 0;
     
     for(let type in data.perfs) {
         if(cfg.deepblue.perfsForRoles.includes(type)) {
-            let url = `https://lichess.org/@/${data.username}/perf/${type}`
-            let peaks[i] = lichessScraper(url);
+            let url = `https://lichess.org/@/${data.username}/perf/${type}`;
+            peaks[i] = LichessScraper(url);
             if(!(peaks[i] = "")) {
                 allProvisional = false;
             }
-            i = i+1
+            i = i+1;
         }
 
         if(!cfg.deepblue.allPerfs.includes(type)) {
