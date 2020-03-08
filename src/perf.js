@@ -7,17 +7,14 @@ PerformanceBreakdown.getMaxRating = function(perfs, types) {
         "type": "Unknown"
     };
 
-    for(type in perfs) {
-        if(types && types.includes(type) || !types) {
-            if(!perfs[type].prov) {
-                let Rat1 = perfs[type].rating;
-                let Rat2 = maxRating.rating;
-                if(Rat1 > Rat2) {
-                    maxRating = perfs[type];
-                    maxRating.type = PerformanceBreakdown.perfToReadable(type);
-                }
-            }
-        }
+    for(i=0; i < perfs.length; i++) {
+         let Rat1 = perfs[i];
+         let Rat2 = maxRating.rating;
+
+         if(Rat1 > Rat2) {
+              maxRating.rating = perfs[i];
+              maxRating.type = types[i];
+         }
     }
 
     return maxRating;
