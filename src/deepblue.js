@@ -2,6 +2,7 @@ const cfg = require("../config.json");
 const FenCommand = require("./commands/fen.js");
 const HelpCommand = require("./commands/help.js");
 const StudyCommand = require("./commands/study.js");
+const LadderCommand = require("./commands/ladder.js");
 const LichessCommand = require("./commands/lichess.js");
 const RemoveCommand = require("./commands/remove.js");
 
@@ -40,6 +41,8 @@ DeepBlue.prototype.onMessage = function(msg) {
         RemoveCommand(this, msg);
     } else if(cmd === "study") {
         StudyCommand(this, msg);
+    } else if(cmd === "ladder") {
+        LadderCommand(this, msg);
     } else if(cmd === "update") {
         this.sendMessage(msg.channel, "Bot auto updates now. Check when the next update is due in the bot's status message.");
     }
