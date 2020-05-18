@@ -12,6 +12,7 @@ client.on("ready", () => {
     roles.push(cfg.ratingRoleManager.provisionalRole);
     roles.push(cfg.deepblue.staffRole);
     roles.push(cfg.study.studyRoleName);
+    roles.push(cfg.ladder.ladderRoleName);
 
     new DeepBlue(client);
     console.log("The bot started!");

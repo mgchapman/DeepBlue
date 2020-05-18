@@ -47,6 +47,10 @@
         "channels": ["moderation", "general"],
         "studyRoleName": "Study"
     },
+    "ladder": {
+        "channels": ["moderation", "general"],
+        "studyRoleName": "Ladder"
+    },
     "help": {
         "channels": ["moderation", "general"],
         "fields": [
@@ -59,6 +63,9 @@
             },{
                 "name": "!Study",
                 "value": "Toggles study role."
+            },{
+                "name": "!Ladder",
+                "value": "Toggles ladder role."
             },{
                 "name": "!Fen [FEN]",
                 "value": "Will show chess board image with a given position."
